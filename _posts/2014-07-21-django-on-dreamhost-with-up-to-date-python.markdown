@@ -1,10 +1,8 @@
 ---
 layout: post
-title: "Django on Dreamhost with up-to-date python"
-date: 2014-07-21 15:37:51 +0100
-comments: true
-categories: [Django, Python, Dreamhost]
+title: Django on Dreamhost with up-to-date python
 ---
+
 I recently went through the process of installing my own python (2.7.7) and Django (1.6.5) versions on my Dreamhost account in order to be on the same versions as I'm running in development.
 
 I used [this guide from stackexchange][1] as a basis, with a few tweaks.
