@@ -21,6 +21,7 @@ SSH into your shell account
 	./configure --prefix=$HOME/opt/python-2.7.7
 	make
 	make install
+
 This will install your local version of python to ```/home/<username>/opt/python-2.7.7```
 
 Add to your path in order to use this version of python over the system default: ```export PATH=$HOME/opt/python-2.7.7/bin:$PATH```. You can also add this line to the .bashrc and/or .bash_profile file in your home directory to make this permanent. ([ see here for info on the difference][2]) Other shells are available, but I'll assume if you've changed yours you really know what you're doing!
@@ -31,6 +32,7 @@ In order to install various python packages, and Django in particular, then you'
 
 	curl https://bootstrap.pypa.io/get-pip.py > ~/tmp/get-pip.py
 	python ~/tmp/get-pip.py
+
 (Using curl here rather than wget, as it handles the secure site (https) better)
 
 Finally in order to "freeze" the package versions for your website (so they don't automatically update when you set up another site at a later date), you'll likely want to install virtualenv: ```pip install virtualenv```
@@ -42,18 +44,22 @@ In the [Dreamhost Panel][4] set up a new fully hosted domain with a web director
 Once the new directory has been created on your server, set up a new virtualenv:
 	
 	virtualenv $HOME/<domain.name>/env
+
 This will create a local copy of your environment specific to this website.
 
 While working on this website, you should activate the local environment in order to make sure you're working with the right versions of your tools and packages:
 
 	source $HOME/<domain.name>/env/bin/activate
+
 Now you can install Django and any other required packages (e.g. MySQL-python if you're going to use a MySQL database) for your website using pip:
 
 	pip install Django MySQL-python
+
 Now you can create your Django project:
 
 	cd $HOME/<domain.name>/
 	python env/bin/django-admin.py startproject <projectname>
+
 In order for Passenger to pick up your project, you need to create a ```passenger_wsgi.py``` file within your site's top level directory (```/home/<username>/<domain.name>```).
 The file should contain the following:
 
@@ -82,14 +88,17 @@ Within the projects setting file, found at ```<projectname>/<projectname>/settin
 Add another line to set the location on the server of the actual static directory:
 
 	STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), '/public/static/')
+
 This will be the location where Django will put all of your static files - you shouldn't put stuff here manually as it gets overwritten. Run the collectstatic command now to set up the static items for the admin interface:
 
 	cd $HOME/<domain>/
 	<projectname>/manage.py collectstatic
+
 Finally you should set up your database as required within the settings.py file - the default is to use sqlite3, which may be suitable for the smallest of sites, but it's likely you'll want to set up a mysql database.
 Once configured, run a syncdb:
 
 	<projectname>/manage.py syncdb
+
 Set up a superuser as and if required.
 
 Et voila! You should now see the standard Django holding page at your domain and be able to access the admin console at ```http://domain.name/admin/```.
